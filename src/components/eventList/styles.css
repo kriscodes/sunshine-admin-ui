@@ -1,0 +1,33 @@
+.event-title{
+    color: #000;
+    font-size: 48px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 128px;
+}
+.event-list-container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 48px;
+    margin: 64px 64px 48px 0;
+}
+.event-container{
+    display: flex;
+    background-color: #BFE5D5;   
+    width: 400px;
+    height: 180px;
+    padding: 24px;
+    gap: 32px;
+}
+.link{
+    text-decoration: none;
+    color: #000;
+}
+.link:visited{
+    text-decoration: none;
+    color: #000;
+}
+.link:hover{
+    color: blue;
+}

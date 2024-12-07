@@ -1,0 +1,44 @@
+/* components/Sidebar.module.css */
+
+.sidebar {
+    width: 200px;
+    height: 100vh; /* Full height */
+    position: fixed; /* Fix to left side */
+    top: 0;
+    left: 0;
+    background-color: #f4f4f4; /* Light gray background */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+.sidebarul {
+list-style-type: none;
+padding: 0;
+}
+
+.sidebarli {
+margin-bottom: 22px;
+text-decoration: none;
+color: #333;
+font-size: 22px;
+}
+.sidebarli:visited {
+margin-bottom: 22px;
+text-decoration: none;
+color: #333;
+font-size: 22px;
+}
+.sidebarli:hover {
+color: blue;
+}
+
+.sidebara {
+text-decoration: none;
+color: #333;
+font-size: 18px;
+}
+.sidebara:visited {
+text-decoration: none;
+color: #333;
+font-size: 18px;
+}
