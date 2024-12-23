@@ -74,7 +74,7 @@ const NewEventForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="new-event-form">
+    <form style={styles.form} onSubmit={handleSubmit(onSubmit)} className="new-event-form">
       <h2>Add New Event</h2>
       <div>
         <label htmlFor="name">Event Title *</label>
@@ -141,5 +141,12 @@ const NewEventForm = () => {
     </form>
   );
 };
+
+const styles = {
+  form: {
+    padding: '48px 0 48px 0',
+    margin: '0'
+  }
+}
 
 export default NewEventForm;

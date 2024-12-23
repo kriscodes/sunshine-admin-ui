@@ -44,6 +44,7 @@ export default function Dashboard() {
   return (
     <div style={styles.container}>
         <Sidebar/>
+        <h1 style={styles.heading}>Dashboard</h1>
         <div style={styles.content}>
             <Link to='/tours' className="link">
                 <div style={styles.card}>
@@ -74,15 +75,14 @@ export default function Dashboard() {
 
 const styles = {
   container: {
+    marginLeft: '180px',
+    paddingLeft: '24px',
+    marginTop: '0px',
+    paddingTop: '48px',
+    height: '100%',
     backgroundColor: '#f5f5f5',
-    marginTop: '-8px',
-    marginRight: '-8px',
-    marginBottom: '-8px',
-    paddingBottom: '64px'
   },
   content: {
-    paddingTop: '100px',
-    marginLeft: '300px',
     display: 'flex',
     justifyContent:'center',
     flexDirection: 'column'

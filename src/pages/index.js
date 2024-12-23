@@ -2,54 +2,59 @@ import React from "react";
 import { useState } from "react";
 import { useForm } from 'react-hook-form';
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Home() {
 
+  const navigate = useNavigate();
   const { handleSubmit, formState: { errors } } = useForm();
-
-  const [inputText, setInputText] = useState('');
-  const [hashedText, setHashedText] = useState('');
-
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   })
 
-  async function hashPassword() {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(inputText);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashedText = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    setHashedText(hashedText);
+  async function hashPassword(pass) {
 
-    console.log(hashedText);
+    let encoder = new TextEncoder();
+    let data = encoder.encode(pass);
+    let hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    let hashArray = Array.from(new Uint8Array(hashBuffer));
+    let hashedText = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+    setFormData({
+      ...formData,
+      'password': hashedText
+    });
   }
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
-    hashPassword();
-    setFormData({
-      ...setFormData,
-      'password': value
-    });
-  };
+    hashPassword(value);
+  }
 
   const handleUsernameChange = (e) => {
     const { name, value } = e.target;
     setFormData({
-      ...setFormData,
+      ...formData,
       'username': value
     });
-  };
+  }
 
-  const handleLogin = async(data) => {
-    console.log(formData);
+  const handleLogin = async() => {
     async function fetchUsers() {
       await axios.get('https://dev.api.sunshinepreschool1-2.org/api/users').then(res => {
-      const c = res.data;
-      console.log(res.data);
+      const users = res.data;
+      users.map((user) => {
+        if(user.email === formData.username){
+          console.log('emails match');
+          if(user.password === formData.password) {
+            console.log('login successful');
+            return navigate("/dashboard");
+          }
+        }
+        else {
+          console.log('no emails match')
+        }
+      })
     });
     }
     fetchUsers();
@@ -61,28 +66,26 @@ export default function Home() {
         <form style={styles.form} onSubmit={handleSubmit(handleLogin)}>
             <h1 style={styles.heading}>Login</h1>
             <input
-            type="text"
-            placeholder="Username"
-            id="username"
-            name="username"
-            onChange={handleUsernameChange}
-            style={styles.input}
+              type="text"
+              placeholder="Email"
+              id="username"
+              name="username"
+              onChange={handleUsernameChange}
+              style={styles.input}
             />
-
+ 
             <input
-            type="password"
-            placeholder="Password"
-            id="password"
-            name="password"
-            onChange={handlePasswordChange}
-            style={styles.input}
+              type="password"
+              placeholder="Password"
+              id="password"
+              name="password"
+              onChange={handlePasswordChange}
+              style={styles.input}
             />
             <button type="submit" style={styles.button}>Login</button><br/>
             <Link to='/createAccount'>Create New Account</Link><br/>
             <Link to="/forgot-password">Forgot Password</Link>
         </form>
-        
-        
     </div>
   );
 }

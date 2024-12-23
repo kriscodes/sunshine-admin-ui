@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Sidebar from '../../components/sidebar';
 
@@ -26,7 +26,7 @@ export default function Contacts() {
   return (
     <div style={styles.container}>
         <Sidebar/>
-      <h1 style={styles.heading}>Tours Management Page</h1>
+      <h1 style={styles.heading}>Contacts</h1>
         <table className="tab">
             <thead>
             <tr>
@@ -58,14 +58,15 @@ export default function Contacts() {
 
 const styles = {
   container: {
-    marginLeft:'230px',
-    paddingLeft: '20px',
-    marginTop: '-22px',
-    marginRight: '-8px',
-    paddingTop: '20px',
+    marginLeft: '180px',
+    paddingLeft: '24px',
+    marginTop: '0px',
+    paddingTop: '48px',
+    height: '100vh',
     backgroundColor: '#f5f5f5',
   },
   heading: {
     color: '#333',
+    marginTop: '0px'
   },
 }

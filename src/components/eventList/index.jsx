@@ -14,7 +14,6 @@ const EventList = () => {
           .then(res => {
             const c = res.data;
             setEvents(c);
-            console.log(c);
           });
           }
           fetchEvents();
@@ -26,9 +25,6 @@ const EventList = () => {
 
     return (
         <div>
-            <p className="event-title">
-                Events
-            </p>
             <div className="event-list-container">
                 {events.map((event, index) => {
                     return (
@@ -43,13 +39,6 @@ const EventList = () => {
                         </div>
                     );
                 })}
-                {/*<Link href="/events" className="link">
-                <div className="event-container">
-                    <div style={{fontSize: 98, display: 'flex', justifyContent: 'center', alignItems: "center", alignContent: 'center', textAlign: 'center', width: '100%'}}>
-                        <p style={{textAlign: 'center'}}>+</p>
-                    </div>
-                </div>
-                </Link>*/}
             </div>
         </div>
     )

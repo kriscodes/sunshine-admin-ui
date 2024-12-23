@@ -6,7 +6,6 @@ import axios from "axios";
 const CreateAccount = () => {
 
     const { handleSubmit, formState: { errors } } = useForm();
-    const [cPassword, setCPassword] = useState('');
 
     const [inputText, setInputText] = useState('');
     const [hashedText, setHashedText] = useState('');
@@ -17,15 +16,18 @@ const CreateAccount = () => {
         password: ''
     })
 
-    async function hashPassword() {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(inputText);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashedText = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-        setHashedText(hashedText);
-    
-        console.log(hashArray);
+    async function hashPassword(pass) {
+        let encoder = new TextEncoder();
+        let data = encoder.encode(pass);
+        let hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        let hashArray = Array.from(new Uint8Array(hashBuffer));
+        let hashedText = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+
+        console.log(hashedText);
+        setFormData({
+            ...formData,
+            'password': hashedText
+        });
     }
 
     const handleNameChange = (e) => {
@@ -36,19 +38,9 @@ const CreateAccount = () => {
         });
     };
 
-    const handleCPasswordChange = (e) => {
-        const { value } = e.target;
-       if(value === formData.password) {
-        
-       }
-    };
-
     const handlePasswordChange = (e) => {
         const { value } = e.target;
-        setFormData({
-            ...formData,
-            'password': value
-        });
+        hashPassword(value);
     };
 
     const handleEmailChange = (e) => {
@@ -61,6 +53,8 @@ const CreateAccount = () => {
 
     const onSubmit = async(data) => {
         console.log(formData);
+
+
         async function createUser() {
             await axios.post('https://dev.api.sunshinepreschool1-2.org/api/users', formData).then(res => {
             const c = res.data;
@@ -98,15 +92,6 @@ const CreateAccount = () => {
                 type="password"
                 placeholder="Password"
                 onChange={handlePasswordChange}
-                style={styles.input}
-            />
-            <label htmlFor="password">Confirm Password *</label>
-            <input
-                id="cpassword"
-                name="cpassword"
-                type="password"
-                placeholder="Confirm Password"
-                onChange={handleCPasswordChange}
                 style={styles.input}
             />
             <button type="submit" style={styles.button}>Create Account</button>

@@ -33,7 +33,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className={styles.sidebarli}>
-          <Link to="/login" className={styles.sidebarli}>
+          <Link to="/" className={styles.sidebarli}>
             Logout
           </Link>
         </li>
