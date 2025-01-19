@@ -20,6 +20,14 @@
     padding: 24px;
     gap: 32px;
 }
+.event-picture{
+    width: 150px;
+    height: 150px;
+    padding-top: 32px;
+}
+.event-text{
+
+}
 .link{
     text-decoration: none;
     color: #000;

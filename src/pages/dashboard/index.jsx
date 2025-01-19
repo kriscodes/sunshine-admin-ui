@@ -6,8 +6,25 @@ import axios from 'axios';
 import "./styles.css"
 
 export default function Dashboard() {
-  const [contacts, setContacts] = useState([]);
-  const [tours, setTours] = useState([]);
+  const [contacts, setContacts] = useState([])
+  const [tours, setTours] = useState([])
+  const [events, setEvents] = useState()
+
+  useEffect( () => {
+    try{
+      async function fetchEvents() {
+        await axios.get('https://dev.api.sunshinepreschool1-2.org/api/events')
+      .then(res => {
+        const c = res.data;
+        setEvents(c);
+      });
+      }
+      fetchEvents();
+    }
+    catch(err){
+      console.log(err);
+    }
+  }, [])
 
   useEffect( () => {
     try{
@@ -52,7 +69,7 @@ export default function Dashboard() {
                         Tour Requests
                     </span>
                     <span style={styles.cardNum}>
-                        {tours.length}
+                        {tours?.length}
                     </span>
                 </div>
             </Link>
@@ -62,11 +79,11 @@ export default function Dashboard() {
                         New Contacts
                     </span>
                     <span style={styles.cardNum}>
-                        {contacts.length}
+                        {contacts?.length}
                     </span>
                 </div>
             </Link>
-            <EventList/>
+            <EventList events={events}/>
         </div>
         
     </div>
@@ -89,6 +106,7 @@ const styles = {
   },
   heading: {
     color: '#333',
+    marginTop: '0px'
   },
   card: {
     width: '860px',

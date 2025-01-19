@@ -118,19 +118,20 @@ const NewEventForm = () => {
         onChange={handleEventLocationChange}
         >
           <option value="">Select Location</option>
-          <option value="Lawndale">Lawndale</option>
+          <option value="Lynwood">Lynwood</option>
           <option value="Compton">Compton</option>
         </select>
       </div>
 
       <div>
         <label htmlFor="description">Description *</label>
-        <input
-          type="text"
+        <textarea
           id="description"
           name="description"
+          cols="32"
+          rows="3"
           onChange={handleEventDescChange}
-          style={{padding: '6px', margin: '8px', border: '3px solid #555'}}
+          style={{padding: '6px', margin: '8px', border: '1px solid #555'}}
         />
       </div>
 

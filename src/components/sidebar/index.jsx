@@ -1,5 +1,3 @@
-// components/Sidebar.js
-
 import { Link } from 'react-router-dom';
 import styles from './sidebar.module.css';
 
@@ -37,7 +35,6 @@ const Sidebar = () => {
             Logout
           </Link>
         </li>
-        {/* Add more links as needed */}
       </ul>
     </div>
   );
