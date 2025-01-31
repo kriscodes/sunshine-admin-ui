@@ -16,14 +16,14 @@
     display: flex;
     background-color: #BFE5D5;   
     width: 400px;
-    height: 180px;
+    height:260px;
     padding: 24px;
     gap: 32px;
 }
 .event-picture{
     width: 150px;
     height: 150px;
-    padding-top: 32px;
+    padding-top: 20px;
 }
 .event-text{
 

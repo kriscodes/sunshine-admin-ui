@@ -22,7 +22,7 @@ const NewEventForm = () => {
    console.log(formData);
     
     try {
-      await axios.post('https://dev.api.sunshinepreschool1-2.org/api/events', formData);
+      await axios.post('https://api.sunshinepreschool1-2.org/api/events', formData);
     } catch (error) {
       console.error('Error creating event', error);
       alert('Failed to create event.');

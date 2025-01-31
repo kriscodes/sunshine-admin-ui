@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
-const EventManager = ({ isVisible, onClose, event }) => {
+const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => {
 
     const { handleSubmit, formState: { errors } } = useForm();
 
@@ -22,18 +23,44 @@ const EventManager = ({ isVisible, onClose, event }) => {
         })
     }, event)
 
-    if (!isVisible || !event) return null;
+    if (!isVisible || !event) {
+        return (
+            <>
+            <ToastContainer/>
+            </>
+        )
+    };
 
-    // edit event manager
-    const onSubmit = async(data) => {    
+    const onSubmit = async() => {    
         try {
-            let url = 'https://dev.api.sunshinepreschool1-2.org/api/events/' + event.id.toString()
+            let url = 'https://api.sunshinepreschool1-2.org/api/events/' + event.id.toString()
             await axios.put(url, formData)
+            setEventManagerVisible(false);
+            const notify = () => toast.success('Event edited', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                });
+                notify();
         } catch (error) {
             console.error('Error creating event', error);
-            alert('Failed to create event.');
         }
     };
+
+    const onDelete = async() => {
+        try {
+            let url = 'https://api.sunshinepreschool1-2.org/api/events/' + event.id.toString()
+            await axios.delete(url, formData)
+            setEventManagerVisible(false);
+        } catch (error) {
+            console.error('Error creating event', error);
+        }
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -42,6 +69,7 @@ const EventManager = ({ isVisible, onClose, event }) => {
           [name]: value
         }));
     };
+
 
     return (
         <div style={managerStyles.overlay} onClick={onClose}>
@@ -67,22 +95,10 @@ const EventManager = ({ isVisible, onClose, event }) => {
                             id="date"
                             name="date"
                             style={{padding: '6px', margin: '8px'}}
-                            value={formData.date || ''}
+                            value={formData?.date || ''}
                             onChange={handleChange}
                         />
                     </div>
-
-                    {/* <div>
-                        <label htmlFor="time">Event Time *</label>
-                        <input
-                            type="time"
-                            id="time"
-                            name="time"
-                            style={{padding: '6px', margin: '8px'}}
-                            value={formData.time || ''}
-                            onChange={handleChange}
-                        />
-                    </div> */}
 
                     <div>
                         <label htmlFor="location">Location *</label>
@@ -90,7 +106,7 @@ const EventManager = ({ isVisible, onClose, event }) => {
                             id="location" 
                             name="location"
                             style={{padding: '6px', margin: '8px'}}
-                            value={formData.location || ""}
+                            value={formData?.location || ""}
                             onChange={handleChange}
                         >
                             <option value="">Select Location</option>
@@ -106,7 +122,7 @@ const EventManager = ({ isVisible, onClose, event }) => {
                             name="description"
                             cols="32"
                             rows="3"
-                            value={formData.description || ""}
+                            value={formData?.description || ""}
                             onChange={handleChange}
                             style={{padding: '6px', margin: '8px', border: '1px solid #555'}}
                         />
@@ -116,7 +132,13 @@ const EventManager = ({ isVisible, onClose, event }) => {
                         type="submit"
                         style={{padding: '6px', margin: '8px'}}
                     >
-                            Update Event
+                        Update Event
+                    </button>
+                    <button
+                    onClick={onDelete}
+                    style={{padding: '6px', margin: '8px'}}
+                    >
+                        Delete Event
                     </button>
                 </form>
             </div>
@@ -145,10 +167,10 @@ const managerStyles = {
         width: '300px', /* Adjust width as needed */
         maxWidth: '90%',
         textAlign: 'center',
-      },
-  form: {
-    padding: '48px 0 48px 0',
-    margin: '0'
+    },
+    form: {
+        padding: '48px 0 48px 0',
+        margin: '0'
   }
 }
 

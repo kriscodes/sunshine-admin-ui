@@ -14,7 +14,7 @@ export default function Events() {
   useEffect(() => {
     try{
       async function fetchEvents() {
-        await axios.get('https://dev.api.sunshinepreschool1-2.org/api/events')
+        await axios.get('https://api.sunshinepreschool1-2.org/api/events')
       .then(res => {
         const c = res.data;
         setEvents(c);
@@ -48,7 +48,7 @@ export default function Events() {
             <h1 style={styles.heading}>Events</h1>
             <EventList eventManagerEdit={eventManagerEdit} events={events}/>
             <NewEventForm/>
-            <EventManager isVisible={eventManagerVisible} onClose={eventManagerOnClose} event={event}/>
+            <EventManager isVisible={eventManagerVisible} onClose={eventManagerOnClose} event={event} setEventManagerVisible={setEventManagerVisible}/>
         </div>
     </div>
   );
