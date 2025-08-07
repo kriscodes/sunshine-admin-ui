@@ -33,6 +33,8 @@ export default function Home() {
         console.log(user);
         if(user.email === formData.username){
           console.log('emails match');
+          console.log('user.password', user.password)
+          console.log('formData.password', formData.password)
           if(user.password === formData.password) {
             console.log('login successful');
             return navigate("/dashboard");
