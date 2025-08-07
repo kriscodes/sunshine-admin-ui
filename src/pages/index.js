@@ -30,6 +30,7 @@ export default function Home() {
       await axios.get('https://sunshine-api.onrender.com/users').then(res => {
       const users = res.data;
       users.map((user) => {
+        console.log(user);
         if(user.email === formData.username){
           console.log('emails match');
           if(user.password === formData.password) {
