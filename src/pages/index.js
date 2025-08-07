@@ -13,19 +13,6 @@ export default function Home() {
     password: ''
   })
 
-  async function hashPassword(pass) {
-
-    let encoder = new TextEncoder();
-    let data = encoder.encode(pass);
-    let hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    let hashArray = Array.from(new Uint8Array(hashBuffer));
-    let hashedText = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    setFormData({
-      ...formData,
-      'password': hashedText
-    });
-  }
-
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     hashPassword(value);
@@ -41,7 +28,7 @@ export default function Home() {
 
   const handleLogin = async() => {
     async function fetchUsers() {
-      await axios.get('https://dev.api.sunshinepreschool1-2.org/api/users').then(res => {
+      await axios.get('hhttps://sunshine-api.onrender.com/users').then(res => {
       const users = res.data;
       users.map((user) => {
         if(user.email === formData.username){
