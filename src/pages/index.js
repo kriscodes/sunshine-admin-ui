@@ -15,7 +15,6 @@ export default function Home() {
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
-    hashPassword(value);
   }
 
   const handleUsernameChange = (e) => {
@@ -45,7 +44,6 @@ export default function Home() {
     });
     }
     fetchUsers();
-    hashPassword();
   }
 
   return (
