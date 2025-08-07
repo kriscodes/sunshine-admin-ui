@@ -27,7 +27,7 @@ export default function Home() {
 
   const handleLogin = async() => {
     async function fetchUsers() {
-      await axios.get('hhttps://sunshine-api.onrender.com/users').then(res => {
+      await axios.get('https://sunshine-api.onrender.com/users').then(res => {
       const users = res.data;
       users.map((user) => {
         if(user.email === formData.username){
