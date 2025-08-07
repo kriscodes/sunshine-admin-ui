@@ -15,6 +15,10 @@ export default function Home() {
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      'password': value
+    });
   }
 
   const handleUsernameChange = (e) => {
