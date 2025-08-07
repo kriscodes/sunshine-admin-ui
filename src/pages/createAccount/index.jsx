@@ -56,7 +56,7 @@ const CreateAccount = () => {
 
 
         async function createUser() {
-            await axios.post('https://dev.api.sunshinepreschool1-2.org/api/users', formData).then(res => {
+            await axios.post('https://sunshine-api.onrender.com/users', formData).then(res => {
             const c = res.data;
             console.log(res.data);
         });

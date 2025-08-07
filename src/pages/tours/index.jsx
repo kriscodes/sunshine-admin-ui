@@ -10,7 +10,7 @@ export default function Tours() {
   useEffect( () => {
     try{
       async function fetchTours() {
-        await axios.get('https://api.sunshinepreschool1-2.org/api/tours')
+        await axios.get('https://sunshine-api.onrender.com/tours')
       .then(res => {
         const c = res.data;
         setTours(c);

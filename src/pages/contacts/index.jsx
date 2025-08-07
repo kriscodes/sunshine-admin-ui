@@ -10,7 +10,7 @@ export default function Contacts() {
   useEffect( () => {
     try{
       async function fetchContacts() {
-        await axios.get('https://api.sunshinepreschool1-2.org/api/contacts')
+        await axios.get('https://sunshine-api.onrender.com/contacts')
       .then(res => {
         const c = res.data;
         setContacts(c);

@@ -13,7 +13,7 @@ export default function Dashboard() {
   useEffect( () => {
     try{
       async function fetchEvents() {
-        await axios.get('https://api.sunshinepreschool1-2.org/api/events')
+        await axios.get('https://sunshine-api.onrender.com/events')
       .then(res => {
         const c = res.data;
         setEvents(c);
@@ -29,7 +29,7 @@ export default function Dashboard() {
   useEffect( () => {
     try{
       async function fetchContacts() {
-        await axios.get('https://api.sunshinepreschool1-2.org/api/contacts')
+        await axios.get('https://sunshine-api.onrender.com/contacts')
       .then(res => {
         const c = res.data;
         setContacts(c);
@@ -45,7 +45,7 @@ export default function Dashboard() {
   useEffect( () => {
     try{
       async function fetchTours() {
-        await axios.get('https://api.sunshinepreschool1-2.org/api/tours')
+        await axios.get('https://sunshine-api.onrender.com/tours')
       .then(res => {
         const c = res.data;
         setTours(c);

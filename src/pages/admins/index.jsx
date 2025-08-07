@@ -21,7 +21,7 @@ export default function Admins() {
     try{
       async function fetchUsers() {
       
-        await axios.get('https://dev.api.sunshinepreschool1-2.org/api/users').then(res => {
+        await axios.get('https://sunshine-api.onrender.com/users').then(res => {
         const c = res.data;
         setUsers(c);
       });
