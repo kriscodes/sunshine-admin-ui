@@ -73,16 +73,6 @@ export default function Dashboard() {
                     </span>
                 </div>
             </Link>
-            <Link to='/contacts' className="link">
-                <div style={styles.card}>
-                    <span>
-                        New Contacts
-                    </span>
-                    <span style={styles.cardNum}>
-                        {contacts?.length}
-                    </span>
-                </div>
-            </Link>
             <EventList events={events}/>
         </div>
         

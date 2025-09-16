@@ -52,7 +52,7 @@ const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => 
     try {
       // API used elsewhere in your code
       await axios.put(
-        `https://api.sunshinepreschool1-2.org/api/events/${event.id}`,
+        `https://sunshine-api.onrender.com/events/${event.id}`,
         formData
       );
       toast.success('Event updated', { position: 'top-center', autoClose: 3000 });
@@ -67,7 +67,7 @@ const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => 
   const onDelete = async () => {
     if (!window.confirm('Delete this event?')) return;
     try {
-      await axios.delete(`https://api.sunshinepreschool1-2.org/api/events/${event.id}`);
+      await axios.delete(`https://sunshine-api.onrender.com/events/${event.id}`);
       toast.success('Event deleted', { position: 'top-center', autoClose: 3000 });
       close();
     } catch (error) {
@@ -132,11 +132,11 @@ const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => 
             <textarea
               id="description"
               name="description"
-              rows={3}
+              rows={6}
               value={formData.description}
               onChange={handleChange}
               required
-              style={{ width: '100%', padding: 8, boxSizing: 'border-box' }}
+              style={{ width: '100%', padding: 8, boxSizing: 'border-box', resize: "none"}}
             />
           </div>
 

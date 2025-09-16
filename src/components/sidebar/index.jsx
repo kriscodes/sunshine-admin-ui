@@ -21,11 +21,6 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className={styles.sidebarli}>
-          <Link to="/contacts" className={styles.sidebarli}>
-             Contacts
-          </Link>
-        </li>
-        <li className={styles.sidebarli}>
           <Link to="/admins" className={styles.sidebarli}>
             Admins
           </Link>
