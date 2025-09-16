@@ -1,177 +1,187 @@
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+/**
+ * Props (kept the same as your current usage):
+ * - isVisible: boolean
+ * - onClose: function
+ * - event: the selected event object
+ * - setEventManagerVisible: function (optional – preserved for compatibility)
+ */
 const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => {
+  // Keep form state local and controlled
+  const [formData, setFormData] = useState({
+    name: '',
+    date: '',
+    location: '',
+    description: '',
+  });
 
-    const { handleSubmit, formState: { errors } } = useForm();
-
-    const [formData, setFormData] = useState({
-        title: event?.title || '',
-        date: event?.date || '',
-        location: event?.location || '',
-        description: event?.description || ''
-    })
-
-    useEffect(() => {
-        setFormData({
-            title: event?.name || "",
-            date: event?.date || "",
-            location: event?.location || "",
-            description: event?.description || ""
-        })
-    }, event)
-
-    if (!isVisible || !event) {
-        return (
-            <>
-            <ToastContainer/>
-            </>
-        )
-    };
-
-    const onSubmit = async() => {    
-        try {
-            let url = 'https://api.sunshinepreschool1-2.org/api/events/' + event.id.toString()
-            await axios.put(url, formData)
-            setEventManagerVisible(false);
-            const notify = () => toast.success('Event edited', {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                theme: "light",
-                });
-                notify();
-        } catch (error) {
-            console.error('Error creating event', error);
-        }
-    };
-
-    const onDelete = async() => {
-        try {
-            let url = 'https://api.sunshinepreschool1-2.org/api/events/' + event.id.toString()
-            await axios.delete(url, formData)
-            setEventManagerVisible(false);
-        } catch (error) {
-            console.error('Error creating event', error);
-        }
+  // 🔧 Key fix #1: update form whenever `event` (or visibility) changes
+  // Also normalize `title` vs `name` (the list shows `event.name`)
+  useEffect(() => {
+    if (isVisible && event) {
+      setFormData({
+        name: event?.name ?? event?.title ?? '',
+        date: event?.date ?? '',
+        location: event?.location ?? '',
+        description: event?.description ?? '',
+      });
     }
+  }, [event, isVisible]); // <-- correct dependency array
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-          ...prev,
-          [name]: value
-        }));
-    };
+  // If closed or no event selected, render nothing
+  if (!isVisible || !event) return null;
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-    return (
-        <div style={managerStyles.overlay} onClick={onClose}>
-            <div style={managerStyles.formContainer} onClick={(e) => e.stopPropagation()}>
-                <form style={managerStyles.form} onSubmit={handleSubmit(onSubmit)} className="new-event-form">
-                    <h2>Edit Event</h2>
-                    <div>
-                        <label htmlFor="title">Event Title *</label>
-                        <input
-                            type="text"
-                            id="title"
-                            name="title"
-                            style={{padding: '6px', margin: '8px'}}
-                            value={formData?.title || ''}
-                            onChange={handleChange}
-                        />
-                    </div>
+  const close = () => {
+    // preserve your closing semantics
+    if (typeof onClose === 'function') onClose();
+    if (typeof setEventManagerVisible === 'function') setEventManagerVisible(false);
+  };
 
-                    <div>
-                        <label htmlFor="date">Event Date *</label>
-                        <input
-                            type="date"
-                            id="date"
-                            name="date"
-                            style={{padding: '6px', margin: '8px'}}
-                            value={formData?.date || ''}
-                            onChange={handleChange}
-                        />
-                    </div>
+  // Submit update
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // API used elsewhere in your code
+      await axios.put(
+        `https://api.sunshinepreschool1-2.org/api/events/${event.id}`,
+        formData
+      );
+      toast.success('Event updated', { position: 'top-center', autoClose: 3000 });
+      close();
+    } catch (error) {
+      console.error('Error updating event', error);
+      toast.error('Update failed', { position: 'top-center', autoClose: 3000 });
+    }
+  };
 
-                    <div>
-                        <label htmlFor="location">Location *</label>
-                        <select 
-                            id="location" 
-                            name="location"
-                            style={{padding: '6px', margin: '8px'}}
-                            value={formData?.location || ""}
-                            onChange={handleChange}
-                        >
-                            <option value="">Select Location</option>
-                            <option value="Lynwood">Lynwood</option>
-                            <option value="Compton">Compton</option>
-                        </select>
-                    </div>
+  // Delete event
+  const onDelete = async () => {
+    if (!window.confirm('Delete this event?')) return;
+    try {
+      await axios.delete(`https://api.sunshinepreschool1-2.org/api/events/${event.id}`);
+      toast.success('Event deleted', { position: 'top-center', autoClose: 3000 });
+      close();
+    } catch (error) {
+      console.error('Error deleting event', error);
+      toast.error('Delete failed', { position: 'top-center', autoClose: 3000 });
+    }
+  };
 
-                    <div>
-                        <label htmlFor="description">Description *</label>
-                        <textarea
-                            id="description"
-                            name="description"
-                            cols="32"
-                            rows="3"
-                            value={formData?.description || ""}
-                            onChange={handleChange}
-                            style={{padding: '6px', margin: '8px', border: '1px solid #555'}}
-                        />
-                    </div>
+  return (
+    <div style={managerStyles.overlay} onClick={close}>
+      <div
+        key={event.id /* 🔧 Key fix #2: remount inner form when ID changes */}
+        style={managerStyles.formContainer}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 style={{ marginTop: 0 }}>Edit Event</h2>
 
-                    <button 
-                        type="submit"
-                        style={{padding: '6px', margin: '8px'}}
-                    >
-                        Update Event
-                    </button>
-                    <button
-                    onClick={onDelete}
-                    style={{padding: '6px', margin: '8px'}}
-                    >
-                        Delete Event
-                    </button>
-                </form>
-            </div>
-        </div>
-    );
+        <form style={managerStyles.form} onSubmit={onSubmit}>
+          <div style={{ marginBottom: 12, textAlign: 'left' }}>
+            <label htmlFor="name">Event Title *</label>
+            <input
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              style={{ width: '100%', padding: 8, boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <div style={{ marginBottom: 12, textAlign: 'left' }}>
+            <label htmlFor="date">Event Date *</label>
+            <input
+              id="date"
+              type="date"
+              name="date"
+              value={formData.date ? String(formData.date).slice(0, 10) : ''}
+              onChange={handleChange}
+              required
+              style={{ width: '100%', padding: 8, boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <div style={{ marginBottom: 12, textAlign: 'left' }}>
+            <label htmlFor="location">Location *</label>
+            <select
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              required
+              style={{ width: '100%', padding: 8, boxSizing: 'border-box' }}
+            >
+              <option value="">Select Location</option>
+              <option value="Lynwood">Lynwood</option>
+              <option value="Compton">Compton</option>
+            </select>
+          </div>
+
+          <div style={{ marginBottom: 12, textAlign: 'left' }}>
+            <label htmlFor="description">Description *</label>
+            <textarea
+              id="description"
+              name="description"
+              rows={3}
+              value={formData.description}
+              onChange={handleChange}
+              required
+              style={{ width: '100%', padding: 8, boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+            <button type="submit" style={{ padding: '6px', margin: '8px' }}>
+              Update Event
+            </button>
+            <button type="button" onClick={onDelete} style={{ padding: '6px', margin: '8px' }}>
+              Delete Event
+            </button>
+            <button type="button" onClick={close} style={{ padding: '6px', margin: '8px' }}>
+              Cancel
+            </button>
+          </div>
+        </form>
+
+        <ToastContainer />
+      </div>
+    </div>
+  );
 };
 
 const managerStyles = {
-    overlay: {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)', /* Semi-transparent dark background */
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: '1000',
-    },
-    formContainer: {
-        backgroundColor: '#fff',
-        borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-        padding: '20px',
-        width: '300px', /* Adjust width as needed */
-        maxWidth: '90%',
-        textAlign: 'center',
-    },
-    form: {
-        padding: '48px 0 48px 0',
-        margin: '0'
-  }
-}
+  overlay: {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: '1000',
+  },
+  formContainer: {
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    padding: '20px',
+    width: '320px',
+    maxWidth: '90%',
+    textAlign: 'center',
+  },
+  form: { padding: '24px 0 0 0', margin: 0 },
+};
 
 export default EventManager;
