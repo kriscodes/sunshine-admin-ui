@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import './styles.css';
@@ -14,8 +14,6 @@ const NewEventForm = () => {
   })
 
   const [time, setTime] = useState('');
-
-  const [imagePreview, setImagePreview] = useState(null);
 
   const onSubmit = async(data) => {
 
@@ -135,10 +133,9 @@ const NewEventForm = () => {
         />
       </div>
 
-      <button 
-      type="submit"
-      style={{padding: '6px', margin: '8px'}}
-      >Create Event</button>
+      <button type="submit" style={{padding: '6px', margin: '8px'}}>
+        Create Event
+      </button>
     </form>
   );
 };

@@ -16,7 +16,7 @@ const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => 
 
     useEffect(() => {
         setFormData({
-            title: event?.title || "",
+            title: event?.name || "",
             date: event?.date || "",
             location: event?.location || "",
             description: event?.description || ""

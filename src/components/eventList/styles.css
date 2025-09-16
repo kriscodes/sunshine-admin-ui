@@ -10,32 +10,21 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 48px;
-    margin: 64px 64px 48px 0;
+    margin: 64px 64px 64px 64px;
 }
 .event-container{
     display: flex;
-    background-color: #BFE5D5;   
+    background-color: var(--secondary-color);
+    box-shadow: 0 4px 4px lightgray;
+    border-radius: 4px;
     width: 400px;
-    height:260px;
+    height: 260px;
     padding: 24px;
     gap: 32px;
 }
+
 .event-picture{
     width: 150px;
     height: 150px;
     padding-top: 20px;
-}
-.event-text{
-
-}
-.link{
-    text-decoration: none;
-    color: #000;
-}
-.link:visited{
-    text-decoration: none;
-    color: #000;
-}
-.link:hover{
-    color: blue;
 }
