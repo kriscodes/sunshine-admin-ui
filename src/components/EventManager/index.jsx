@@ -3,13 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-/**
- * Props (kept the same as your current usage):
- * - isVisible: boolean
- * - onClose: function
- * - event: the selected event object
- * - setEventManagerVisible: function (optional – preserved for compatibility)
- */
+
 const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => {
   // Keep form state local and controlled
   const [formData, setFormData] = useState({
@@ -19,8 +13,6 @@ const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => 
     description: '',
   });
 
-  // 🔧 Key fix #1: update form whenever `event` (or visibility) changes
-  // Also normalize `title` vs `name` (the list shows `event.name`)
   useEffect(() => {
     if (isVisible && event) {
       setFormData({
@@ -30,9 +22,8 @@ const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => 
         description: event?.description ?? '',
       });
     }
-  }, [event, isVisible]); // <-- correct dependency array
+  }, [event, isVisible]); 
 
-  // If closed or no event selected, render nothing
   if (!isVisible || !event) return null;
 
   const handleChange = (e) => {
@@ -41,16 +32,14 @@ const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => 
   };
 
   const close = () => {
-    // preserve your closing semantics
     if (typeof onClose === 'function') onClose();
     if (typeof setEventManagerVisible === 'function') setEventManagerVisible(false);
   };
 
-  // Submit update
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      // API used elsewhere in your code
+      
       await axios.put(
         `https://sunshine-api.onrender.com/events/${event.id}`,
         formData
@@ -63,7 +52,6 @@ const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => 
     }
   };
 
-  // Delete event
   const onDelete = async () => {
     if (!window.confirm('Delete this event?')) return;
     try {
@@ -79,7 +67,7 @@ const EventManager = ({ isVisible, onClose, event, setEventManagerVisible }) => 
   return (
     <div style={managerStyles.overlay} onClick={close}>
       <div
-        key={event.id /* 🔧 Key fix #2: remount inner form when ID changes */}
+        key={event.id}
         style={managerStyles.formContainer}
         onClick={(e) => e.stopPropagation()}
       >

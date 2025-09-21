@@ -45,20 +45,15 @@ export default function Tours() {
                 {tours.map((tour, index) => {
                   const date = new Date(tour.tour_date); 
 
-                  const month = date.getMonth() + 1; // getMonth() is 0-indexed
+                  const month = date.getMonth() + 1; 
                   const day = date.getDate();
                   const year = date.getFullYear();
 
-                  // Create a Date object with today's date + the time
                   const time = new Date(`1970-01-01T${tour.tour_time}Z`);
 
-                  // Format to 12-hour time with AM/PM
                   const formatted = time.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
 
-
-                  // Construct the formatted string
                   const formattedDate = `${month}/${day}/${year} ${formatted}`;
-
 
                     return (
                     <tr key={index}>

@@ -40,34 +40,24 @@ export default function Admins() {
         <table className="tab">
             <thead>
             <tr>
-                    <th>Name</th>
                     <th>Email</th>
                     <th>Created Date</th>
-                    <th>Updated Date</th>
             </tr>
             </thead>
             <tbody>
                 {users.map((user, index) => {
 
-                    // Original ISO timestamp
                     const isoCreatedTimestamp = user.created_at;
-                    const isoUpdatedTimestamp = user.updated_at;
 
-                    // Convert to a Date object
                     const utcCreatedDate = new Date(isoCreatedTimestamp);
-                    const utcUpdatedDate = new Date(isoUpdatedTimestamp);
 
-                    // Format the date
                     const formatter = new Intl.DateTimeFormat("en-US", options);
                     const formattedCreatedDate = formatter.format(utcCreatedDate);
-                    const formattedUpdatedDate = formatter.format(utcUpdatedDate);
 
                     return (
                     <tr key={index}>
-                        <td>{user.name}</td>
                         <td>{user.email}</td>
                         <td>{formattedCreatedDate}</td>
-                        <td>{formattedUpdatedDate}</td>
                     </tr>
                     )
                 })}

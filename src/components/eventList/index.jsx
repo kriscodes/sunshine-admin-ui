@@ -9,7 +9,7 @@ const EventList = (props) => {
                 props.events.map((event, index) => {
                     const dateObject = new Date(event?.date);
 
-                    const month = dateObject.getMonth() + 1; // getMonth() is 0-indexed
+                    const month = dateObject.getMonth() + 1;
                     const day = dateObject.getDate();
                     const year = dateObject.getFullYear();
                     const formattedDate = `${month}/${day}/${year}`;

@@ -1,12 +1,11 @@
-/* components/Sidebar.module.css */
 
 .sidebar {
     width: 140px;
-    height: 100vh; /* Full height */
-    position: fixed; /* Fix to left side */
+    height: 100vh; 
+    position: fixed; 
     top: 0;
     left: 0;
-    background-color: #f4f4f4; /* Light gray background */
+    background-color: #f4f4f4; 
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   }
